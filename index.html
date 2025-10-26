@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Madhiyazhagan P - MERN Stack Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --border: #e2e8f0;
+            --gradient: linear-gradient(135deg, var(--accent), #60a5fa);
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+            box-shadow: var(--shadow);
+            transition: background 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s ease, transform 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            margin-top: 60px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0) 100%);
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            margin-bottom: 1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            animation: fadeInUp 1s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero .title {
+            font-size: clamp(1.25rem, 4vw, 1.75rem);
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease 0.6s both;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: #ffffff;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent-hover);
+        }
+
+        /* Sections */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 3rem;
+            color: var(--text-primary);
+            position: relative;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow);
+        }
+
+        .about-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 0.5rem;
+            transition: background 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .contact-item a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .skill-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        .skill-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .skill-card ul {
+            list-style: none;
+        }
+
+        .skill-card li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .skill-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        /* Experience Section */
+        .experience-item {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--accent);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .experience-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.15);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .experience-header h3 {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .experience-header .date {
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .experience-company {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            font-style: italic;
+        }
+
+        .experience-description {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        /* Education Section */
+        .education-item {
+            background: var(--bg-secondary);
+            padding: 2rem;
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .education-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .education-item h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .education-item .school {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .education-item .date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border-radius: 0.75rem;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .project-header {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(59, 130, 246, 0.03) 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .project-header h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .project-links {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .project-link {
+            display: inline-block;
+            padding: 0.3rem 0.75rem;
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            text-decoration: none;
+            border-radius: 0.3rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .project-features {
+            margin-bottom: 1.5rem;
+        }
+
+        .project-features h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .project-features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .project-features li {
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .project-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--accent);
+            padding: 0.3rem 0.75rem;
+            border-radius: 0.3rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: var(--accent);
+            color: #ffffff;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            text-align: center;
+            background: var(--bg-secondary);
+            border-radius: 1rem;
+            padding: 4rem 2rem;
+            margin: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            background: rgba(59, 130, 246, 0.05);
+            border-radius: 0.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link:hover {
+            background: var(--accent);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-header {
+                flex-direction: column;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+
+            .project-links {
+                flex-direction: column;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#home" class="logo">MP</a>
+            <ul class="nav-links">
+                <li><a onclick="scrollToSection('about')">About</a></li>
+                <li><a onclick="scrollToSection('skills')">Skills</a></li>
+                <li><a onclick="scrollToSection('experience')">Experience</a></li>
+                <li><a onclick="scrollToSection('education')">Education</a></li>
+                <li><a onclick="scrollToSection('projects')">Projects</a></li>
+                <li><a onclick="scrollToSection('contact')">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Madhiyazhagan P</h1>
+            <p class="title">MERN Stack Developer</p>
+            <p>Building scalable web applications with real-time features at Kods Technologies. Passionate about crafting user-centric solutions that drive engagement and innovation.</p>
+            <div class="cta-buttons">
+                <a href="mailto:madhi333jp@gmail.com" class="btn btn-primary">Get In Touch</a>
+                <a href="https://www.linkedin.com/in/madhiyazhagan-p/" target="_blank" class="btn btn-secondary">View LinkedIn</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>I'm a MERN Stack Developer based in Bengaluru, India, with a passion for creating robust, scalable, and user-friendly web applications. At Kods Technologies, I've led the development of real-time, cross-platform solutions that have enhanced user engagement and market presence.</p>
+                <p>My expertise includes building responsive frontends with React, developing efficient backends with Node.js and Express, and leveraging cloud services like AWS EC2 and Digital Ocean. I focus on writing clean, maintainable code and collaborating with teams to deliver impactful solutions.</p>
+            </div>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span>📍</span>
+                    <span>Bengaluru, India</span>
+                </div>
+                <div class="contact-item">
+                    <span>📞</span>
+                    <a href="tel:+919986269942">+91 9986269942</a>
+                </div>
+                <div class="contact-item">
+                    <span>📧</span>
+                    <a href="mailto:madhi333jp@gmail.com">madhi333jp@gmail.com</a>
+                </div>
+                <div class="contact-item">
+                    <span>🔗</span>
+                    <a href="https://www.linkedin.com/in/madhiyazhagan-p/" target="_blank">LinkedIn Profile</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Frontend Development</h3>
+                <ul>
+                    <li>React.js</li>
+                    <li>HTML5 & CSS3</li>
+                    <li>Bootstrap</li>
+                    <li>Responsive Design</li>
+                    <li>JavaScript</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>Backend Development</h3>
+                <ul>
+                    <li>Node.js</li>
+                    <li>Express.js</li>
+                    <li>MongoDB</li>
+                    <li>RESTful APIs</li>
+                    <li>WebSocket</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>Tools & Services</h3>
+                <ul>
+                    <li>Git & GitHub</li>
+                    <li>Postman</li>
+                    <li>AWS EC2</li>
+                    <li>Digital Ocean</li>
+                    <li>Python</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <h3>Core Competencies</h3>
+                <ul>
+                    <li>MERN Stack</li>
+                    <li>Real-time Communication</li>
+                    <li>Scalable Architecture</li>
+                    <li>Team Collaboration</li>
+                    <li>Cloud Services</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience">
+        <h2>Experience</h2>
+        <div class="experience-item">
+            <div class="experience-header">
+                <div>
+                    <h3>MERN Stack Developer</h3>
+                    <p class="experience-company">Kods Technologies Pvt. Ltd.</p>
+                </div>
+                <span class="date">May 2024 – Present</span>
+            </div>
+            <p class="experience-description">Led the development of real-time, cross-platform web applications, including a Healthcare Job Portal, Ride Booking Platform, and Construction Management System. Improved user engagement by 30% and market share through scalable designs and real-time communication features. Collaborated with cross-functional teams to deliver innovative solutions.</p>
+        </div>
+        <div class="experience-item">
+            <div class="experience-header">
+                <div>
+                    <h3>Python Full-Stack Developer (Intern)</h3>
+                    <p class="experience-company">PySpiders</p>
+                </div>
+                <span class="date">Jan 2023 – Dec 2023</span>
+            </div>
+            <p class="experience-description">Completed an intensive internship focusing on HTML, CSS, JavaScript, React JS, Python, SQL, and Django. Enhanced user engagement by 25% and reduced query execution time by 35% through optimization techniques. Gained hands-on experience in full-stack development and industry best practices.</p>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education">
+        <h2>Education</h2>
+        <div class="education-item">
+            <h3>Master of Computer Applications</h3>
+            <p class="school">Jain University, Bangalore</p>
+            <p class="date">Expected: Mar 2025</p>
+        </div>
+        <div class="education-item">
+            <h3>Bachelor of Computer Applications</h3>
+            <p class="school">St. Francis College, Bangalore</p>
+            <p class="date">Completed: Oct 2022</p>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>Vaidyog - Healthcare Job Portal</h3>
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.vaidyog.user&pcampaignid=web_share" target="_blank" class="project-link">User App</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.vaidyog.recruiter.app&pcampaignid=web_share" target="_blank" class="project-link">Recruiter App</a>
+                        <a href="https://healthcarejobs.vaidyog.com/login" target="_blank" class="project-link">Website</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">India's premier healthcare job portal, connecting healthcare professionals with recruiters. Features include real-time interview scheduling, subscription plans, and a user-friendly interface. Over 100+ downloads for mobile apps, enabling seamless job search and recruitment processes.</p>
+                    <div class="project-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Real-time interview scheduling with calendar integration</li>
+                            <li>Subscription-based recruiter tools for job postings and analytics</li>
+                            <li>Secure user authentication with role-based access (User, Recruiter, Admin)</li>
+                            <li>Advanced job search with filters for location, specialization, and experience</li>
+                            <li>Payment integration for premium subscriptions</li>
+                            <li>Cross-platform support for web and Android</li>
+                        </ul>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Payment Gateway</span>
+                        <span class="tech-tag">WebSocket</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>24Rides - Ride Booking Application</h3>
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/apps/details?id=com.app.ridesuser" target="_blank" class="project-link">User App</a>
+                        <a href="https://play.google.com/store/apps/details?id=com.app.rides" target="_blank" class="project-link">Driver App</a>
+                    </div>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">A real-time ride booking platform with live tracking and instant trip updates. Integrated with Flutter apps for a seamless mobile experience. Over 500+ downloads for the user app, providing efficient ride-hailing services.</p>
+                    <div class="project-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Live GPS tracking for riders and drivers</li>
+                            <li>Instant booking with dynamic fare estimation</li>
+                            <li>Driver and user apps with real-time notifications</li>
+                            <li>Secure payment processing with multiple options</li>
+                            <li>Route optimization using Google Maps API</li>
+                            <li>Ride history and feedback system</li>
+                        </ul>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Google Maps API</span>
+                        <span class="tech-tag">Real-time Tracking</span>
+                    </div>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="project-header">
+                    <h3>K2K Construction Management</h3>
+                </div>
+                <div class="project-body">
+                    <p class="project-description">A multi-role platform for managing construction projects, colonies, incidents, and work permits. Designed for Admin, HR, and BCCM roles with comprehensive features for efficient project oversight.</p>
+                    <div class="project-features">
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Role-based dashboards for Admin, HR, and BCCM</li>
+                            <li>Real-time project and incident tracking</li>
+                            <li>Work permit management with approval workflows</li>
+                            <li>Document upload and team collaboration tools</li>
+                            <li>Analytics dashboard for project progress and reporting</li>
+                            <li>Secure data storage with MongoDB</li>
+                        </ul>
+                    </div>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Multi-role System</span>
+                        <span class="tech-tag">File Upload</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section">
+        <h2>Get In Touch</h2>
+        <p>I'm excited to connect for new opportunities, collaborations, or just a chat about tech! Reach out via email, phone, or LinkedIn.</p>
+        <div class="contact-links">
+            <a href="mailto:madhi333jp@gmail.com" class="contact-link">
+                <span>📧</span> Email
+            </a>
+            <a href="tel:+919986269942" class="contact-link">
+                <span>📞</span> Phone
+            </a>
+            <a href="https://www.linkedin.com/in/madhiyazhagan-p/" target="_blank" class="contact-link">
+                <span>🔗</span> LinkedIn
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Madhiyazhagan P. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
